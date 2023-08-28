@@ -11,17 +11,73 @@
 	
 	Obs: Para evitar erros durante a execução recomenda-se que configure seu prompt de comando para que utilize as propriedades herdadas do prompt 
 	
-	codigo para compilação: gcc main.c -o saida.exe conio_v3.2.4.c console_v1.5.4.c graphics_v1.1.c quadradoAnimado.c -lgdi32 -Wall -Werror -Wextra -pedantic -lwinmm  
+	codigo para compilação: gcc main.c -o saida.exe  validador.c preProcessamento.c conio_v3.2.4.c 
+	
+	
+	 -Wall -Werror -Wextra -pedantic -lwinmm  
 	
 	link do repositorio: https://github.com/Gabrielpsd
 	
 */
+
+#include <stdio.h>
+#include <string.h>
+
+#include "conio_v3.2.4.h"
+#include "validador.h"
+#include "preProcessamento.h"
+
 
 int main(int argc, char **argv){
 
 	argc = argc;
 	argv = argv;
 
+	char inputString[TAMANHO], secString[TAMANHO];
+	char c[TAMANHO],element[TAMANHO];
+	int i;
 
-	return 0 ;
+	PILHA pilha;
+
+	init(&pilha);
+
+
+	printf("Digite um elemento: ");
+	fgets(c, TAMANHO-1, stdin);
+
+	/*
+	printf("Antes da FORMATACAO\n ");
+	printf("%s ", c);
+	printf("Tamanho: %d \n",strlen(c));
+	*/
+
+	removeAllSpaces(c);
+
+	/*
+	printf("apos da FORMATACAO\n ");
+	printf("%s ", c);
+	printf("Tamanho: %d \n",strlen(c));
+	*/
+
+	if(validateDigits(c))
+		strcpy(element,c);
+	else
+	{
+		printf("ha carateres incalculaveis no sistema");
+	}
+	
+	
+	printf("trabalhar com essa\n ");
+	printf("%s", element);
+	printf("Tamanho: %d \n",strlen(element));
+	
+
+	if(verificaAberturas(element)){
+		printf("expressao bem formada !!");
+		converteInfixa(element);
+		printf("equacao posFixa: \n %s ",element);
+	}else 
+		printf("a elementos incorretos");
+		
+return 0 ;
 }

@@ -35,7 +35,7 @@ int main(int argc, char **argv){
 
 	char inputString[TAMANHO], secString[TAMANHO];
 	char c[TAMANHO],element[TAMANHO];
-	int i;
+	int i,resultado;
 
 	PILHA pilha;
 
@@ -75,7 +75,9 @@ int main(int argc, char **argv){
 	if(verificaAberturas(element)){
 		printf("expressao bem formada !!");
 		converteInfixa(element);
-		printf("equacao posFixa: \n %s ",element);
+		printf("equacao posFixa: %s \n ",element);
+		resultado = calcPosFixa(&element);
+		printf("Resultado: %d ",resultado);
 	}else 
 		printf("a elementos incorretos");
 		

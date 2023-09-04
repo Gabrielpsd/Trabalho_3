@@ -1,3 +1,4 @@
+#include <math.h> /* pow()*/
 #include <string.h>
 #include <stdlib.h>
 
@@ -177,6 +178,22 @@ bool definePrioridade(char string1,char string2){
                          case '*':
                          case '/': return 1;
                  }
+            case '$':
+                 switch (string2)
+                 { 
+                         case '+':
+                         case '-': 
+                         case '*':
+                         case '/': return 1;
+                 }
+            case '(':
+                 switch (string2)
+                 { 
+                         case '+':
+                         case '-': 
+                         case '*':
+                         case '/': return 1;
+                 }
     }
 }
 
@@ -189,7 +206,7 @@ char returnTop(PILHA pilha){
 
 int calcPosFixa(char *equacao)
 {
-    int i, elemento1, elemento2;
+    int i, elemento1, elemento2,resultado;
     PILHA pilha;
     char operador;
 
@@ -201,34 +218,39 @@ int calcPosFixa(char *equacao)
         }
         else
         {
-            
-            Pop(&pilha,operador);
-            elemento1 = atoi(operador);
-
-            Pop(&pilha,operador);
-            elemento1 = atoi(operador);
+            Pop(&pilha,&operador);
+            elemento1 = atoi(&operador);
+            prinf("char em char: %d \n",elemento1);
+            Pop(&pilha,&operador);
+            elemento2 = atoi(&operador);
             
             operador = equacao[i];
 
             switch (operador)
             {
             case '+':
-                atoi
+                resultado = elemento1 + elemento2;
                 break;
             case '-':
-                
+                resultado = elemento1 - elemento2;
                 break;
             case '*':
-                
+                resultado = elemento1 * elemento2;
                 break;
             case '/':
-                
+                resultado = elemento1 / elemento2;
                 break;
-            
+            case '$':
+                resultado = pow(elemento1 ,elemento2);
+                break;
+
             default:
                 break;
             }
+
+            Push(&pilha,(char)resultado);
         }
     }
     
+    return resultado;
 }

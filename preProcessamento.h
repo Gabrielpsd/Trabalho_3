@@ -7,3 +7,5 @@ bool validateDigits(char *);
 void removeAllSpaces(char *);
 
 void imprimePilha(PILHA);
+
+void adicionaEspacos(char *);

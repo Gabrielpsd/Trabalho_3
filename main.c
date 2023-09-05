@@ -76,8 +76,10 @@ int main(int argc, char **argv){
 		printf("expressao bem formada !!");
 		converteInfixa(element);
 		printf("equacao posFixa: %s \n ",element);
+		adicionaEspacos(element);
+		printf("equacao posFixa(COM ESPACOS): %s \n ",element);
 		resultado = calcPosFixa(&element);
-		printf("Resultado: %d ",resultado);
+		printf("\n ---- Resultado: %d ",resultado);
 	}else 
 		printf("a elementos incorretos");
 		

@@ -79,3 +79,32 @@ void imprimePilha(PILHA pilha){
         }
     }
 }
+
+/* funcao que ira adicoinar espacos entre os caracteres para que possa-se trabalhar com caracteres de mais de um digito*/
+void adicionaEspacos(char *String)
+{
+    char tempString[strlen(String)];
+
+    int contString = 0,contTemp = 0;
+
+    while (contString < strlen(String) - 1)
+    {
+        if(String[contString] == '+' || String[contString] == '-' || String[contString] == '*' || String[contString] == '/' || String[contString] == '$'){
+                tempString[contTemp++] = ' ';
+                tempString[contTemp++] = String[contString];
+                tempString[contTemp++] = ' ';
+        }else
+            
+        contString++;
+    }
+    
+    contString = 0;
+
+    while (contString < contTemp)
+    {
+        String[contString] = tempString[contString];
+        ++contString;
+    }
+
+    String[contTemp +1 ] = '\0';
+}

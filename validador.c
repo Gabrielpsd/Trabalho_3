@@ -1,6 +1,7 @@
 #include <math.h> /* pow()*/
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "validador.h"
 #include "preProcessamento.h"
@@ -42,48 +43,21 @@ bool verificaAberturas(char *expressao){
     
     for(i =0; i< strlen(expressao)- 1; ++i ){
         
-        //imprimePilha(pilha);
-
-        if (expressao[i] == '(' || expressao[i] == '[' || expressao[i] == '{')
+        if (expressao[i] == '(' )
         {
             if(Push(&pilha,expressao[i]) == FALSE)
                 return FALSE;
         }
         else 
         {
-            if(expressao[i] == ')' || expressao[i] == '}' || expressao[i] == ']'){
-                if(Pop(&pilha,&auxiliar)){
-                    switch (expressao[i])
-                    {
-
-                    case ')':
-                        if(auxiliar != '(')
-                            return FALSE;
-                        else 
-                            return TRUE;
-                        break;
-
-                    case '}':
-
-                        if(auxiliar != '{')
-                            return FALSE;
-                        else 
-                            return TRUE;
-                        break;
-
-                    case '[':
-
-                        if(auxiliar != ']')
-                            return FALSE;
-                        else 
-                            return TRUE;
-                        break;
-                    }
-                }else 
+            if(expressao[i] == ')')
+            {
+                if(Pop(&pilha,&auxiliar) == FALSE)
+                {
                     return FALSE;
+                }
             }
         }
-        
     }
 
     return TRUE;
@@ -103,7 +77,10 @@ void converteInfixa(char *equacao){
     while (equacao[i])
     {
         //printf("to aqui (0)");
-        if (equacao[i] < '9' && equacao[i] > '0') saida[j++] = equacao[i++];
+        if (equacao[i] < '9' && equacao[i] > '0')
+        {
+            saida[j++] = equacao[i++];
+        } 
         else
         {   
            // printf("to aqui (1)\n");
@@ -220,10 +197,10 @@ int calcPosFixa(char *equacao)
         {
             Pop(&pilha,&operador);
             elemento1 = atoi(&operador);
-            prinf("char em char: %d \n",elemento1);
+
             Pop(&pilha,&operador);
             elemento2 = atoi(&operador);
-            
+
             operador = equacao[i];
 
             switch (operador)
@@ -248,9 +225,11 @@ int calcPosFixa(char *equacao)
                 break;
             }
 
-            Push(&pilha,(char)resultado);
+            Push(&pilha,resultado + '0');
         }
+
+        ++i;
     }
-    
-    return resultado;
+
+    return pilha.elemento[pilha.topo] - '0';
 }

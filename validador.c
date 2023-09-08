@@ -136,8 +136,8 @@ void converteInfixa(char *equacao){
         printf("------------------\n"); */
     }
 
-    printf("tamanho saida: %d ", strlen(saida));
-    printf("saida:%st", saida);
+    /* printf("tamanho saida: %d ", strlen(saida));
+    printf("saida:%st", saida); */
     
     j = j - 1;
     
@@ -229,57 +229,81 @@ char returnTop(PILHA pilha){
     return auxiliar;
 }
 
-int calcPosFixa(char *equacao)
+float calcPosFixa(char *equacao)
 {
-    int i, elemento1, elemento2,resultado;
-    PILHA pilha;
-    char operador;
+    int i;
+    char operador, *pt;
+    float *Result, elemento1 , elemento2, resultado; 
 
     i = 0;
-    while (equacao[i])
-    {
-        if(equacao[i] >=  '0' && equacao[i] < '9'){
-            Push(&pilha,equacao[i]);
+    pt = strtok(equacao, " ");
+
+    Result = (float *) realloc(Result, sizeof(float) * (i + 1));
+
+    while(pt)
+    {   
+        if(ehOperando(pt[0]) == FALSE)
+        {  
+            Result = (float *) realloc(Result, sizeof(float) * (i + 1));
+            Result[i] = atof(pt);
+            ++i;
         }
         else
-        {
-            Pop(&pilha,&operador);
-            elemento1 = atoi(&operador);
-
-            Pop(&pilha,&operador);
-            elemento2 = atoi(&operador);
-
-            operador = equacao[i];
+        {   
+            /* j = 0;
+            printf("\n---------------\n");
+            printf("Atualmente: \n");
+            while (j < i)
+            {
+                printf("%.2f ", Result[j]);
+                j++;
+            }
+            printf("Valor de i: %d ", i);
+            printf("\n---------------\n") */; 
+           elemento1 = Result[--i];
+           //printf("number: %.2f \t",elemento1);
+           elemento2 = Result[--i];
+            //printf("number: %.2f \t\n",elemento2);
+            operador = pt[0];
 
             switch (operador)
             {
             case '+':
                 resultado = elemento1 + elemento2;
+                //printf("Resultado soma: %.2f\n",resultado);
                 break;
             case '-':
                 resultado = elemento1 - elemento2;
+               // printf("Resultado sub: %.2f\n",resultado);
                 break;
             case '*':
                 resultado = elemento1 * elemento2;
+                //printf("Resultado multi: %.2f\n",resultado);
                 break;
             case '/':
-                resultado = elemento1 / elemento2;
+                if (elemento2 == 0)
+                {
+                    printf("Ocorreu alguma divisão por ZERO");
+                    exit(1);
+                }
+                resultado = elemento2 / elemento1;
                 break;
             case '$':
-                resultado = pow(elemento1 ,elemento2);
+                resultado = pow(elemento2 ,elemento1);
                 break;
 
             default:
                 break;
             }
 
-            Push(&pilha,resultado + '0');
+            //printf("Atribuindo a posicao: %d ", i);
+            Result[i++] = resultado;
         }
 
-        ++i;
+        pt = strtok(NULL," ");
     }
 
-    return pilha.elemento[pilha.topo] - '0';
+    return Result[0];
 }
 
 bool ehOperando(char Valor){
@@ -311,7 +335,7 @@ void concatena(char *dest , char *scr, int lastScr, int tamanhoDest)
     if(strlen(dest) < tamanhoDest)
         while (scr[i] !='\0' && i < tamanho)
         {
-            printf("Passado %c para %s ",scr[i], dest);
+            //printf("Passado %c para %s ",scr[i], dest);
             dest[auxiliar++] = scr[i++];
         }
 

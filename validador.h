@@ -9,6 +9,7 @@ typedef struct
    char elemento[TAMANHO];
 }PILHA;
 
+
 typedef enum {FALSE, TRUE} bool;
 
 
@@ -30,4 +31,7 @@ char returnTop(PILHA );
 bool ehOperando(char);
 
 void concatena(char *, char *, int, int);
+
+float calcPosFixa(char *);
+
 #endif /* quadradoAnimado */ 

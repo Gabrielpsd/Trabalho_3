@@ -77,9 +77,8 @@ int main(int argc, char **argv){
 			putchar(element[i]);
 			i++;
 		}
-
-		calcPosFixa(element);
-			
+		printf("\n");
+		printf("Resultado: %.2f",calcPosFixa(element));
 	}else 
 		printf("a elementos incorretos");
 		

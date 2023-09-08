@@ -28,4 +28,6 @@ bool definePrioridade(char string1,char string2);
 char returnTop(PILHA );
 
 bool ehOperando(char);
+
+void concatena(char *, char *, int, int);
 #endif /* quadradoAnimado */ 

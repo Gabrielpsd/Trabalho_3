@@ -66,31 +66,48 @@ bool verificaAberturas(char *expressao){
 void converteInfixa(char *equacao){
 
     PILHA pilha;
-    char saida[TAMANHO], auxiliar;
+    char saida[TAMANHO], auxiliar, *pt;
     int i, j;
 
     //iniciando as variaveis
-    
+    saida[0] = '\0';
+
     init(&pilha);
     i = j = 0;
 
-    while (equacao[i])
-    {
-        if (ehOperando(equacao[i]) == FALSE)
-        {
-            saida[j++] = equacao[i++];
+    pt = strtok(equacao, " ");
+
+    while (pt)
+    {  
+
+        /* printf("inicio elemento: \n");
+        printf("pt: %s\n",pt);
+        printf("tamanho PT: %d \n",strlen(pt)); */
+
+        if (ehOperando(pt[0]) == FALSE)
+        {   
+            
+        //printf("concatenando: %s com %s \n", saida,pt);
+            //strcat(saida,pt);
+        concatena(saida , pt,j, TAMANHO);
+        //printf("concatenada: %s\n",saida);
+            //printf(" saida: %s\n",saida); 
+            j += strlen(pt);
+            /* printf("tamanho saida: %d \n",strlen(saida));
+            printf("tamanho j : %d  \n",j); */
+            saida[j++] = ' ';
         } 
         else
         {   
-
-            if(equacao[i] == ')')
+            
+            if(pt[0] == ')')
             {   
                 Pop(&pilha,&auxiliar);
                 while(auxiliar != '(')
                 {   
 
                     saida[j++] = auxiliar;
-
+                    saida[j++] = ' ';
                     Pop(&pilha,&auxiliar);
                 }
 
@@ -99,26 +116,37 @@ void converteInfixa(char *equacao){
             }
             else
             {
+
             // printf("to aqui (1)\n");
-                    if (pilha.topo != 0 && definePrioridade(equacao[i], returnTop(pilha))){
+                    if (pilha.topo != 0 && definePrioridade(pt[0], returnTop(pilha))){
                         Pop(&pilha,&auxiliar);
                         saida[j++] = auxiliar;
+                        saida[j++] = ' ';
                         //printf("to aqui (2)\n");
                     }
 
-                Push(&pilha,equacao[i++]);
+                Push(&pilha,pt[0]);
             }
+
+            /* printf("Topo pilha: %c \n", returnTop(pilha)); */
         }
 
-        saida[j++] = ' ';
+        pt = strtok(NULL ," ");
+       /*  printf("tamanho de j apos espaco: %d ",j);
+        printf("------------------\n"); */
     }
 
-
+    printf("tamanho saida: %d ", strlen(saida));
+    printf("saida:%st", saida);
+    
+    j = j - 1;
+    
     while (pilha.topo > 0)
     {   
-
+        saida[j++] = ' ';
         Pop(&pilha,&auxiliar);
         saida[j++] = auxiliar;
+        
         //printf("to aqui (4)\ntopo: %d",pilha.topo);
     }
     
@@ -269,4 +297,22 @@ bool ehOperando(char Valor){
     default:
         return FALSE;
     }
+}
+
+void concatena(char *dest , char *scr, int lastScr, int tamanhoDest)
+{
+    int tamanho, auxiliar, i;
+
+    tamanho = strlen(scr);
+
+    auxiliar = lastScr;
+    i = 0;
+
+    if(strlen(dest) < tamanhoDest)
+        while (scr[i] !='\0' && i < tamanho)
+        {
+            printf("Passado %c para %s ",scr[i], dest);
+            dest[auxiliar++] = scr[i++];
+        }
+
 }

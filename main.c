@@ -37,51 +37,49 @@ int main(int argc, char **argv){
 	char c[TAMANHO],element[TAMANHO];
 	int i,resultado;
 
-	PILHA pilha;
-
-	init(&pilha);
-
-
 	printf("Digite um elemento: ");
 	fgets(c, TAMANHO-1, stdin);
-
+	c[strlen(c) - 1 ] = '\0';
 	/*
 	printf("Antes da FORMATACAO\n ");
 	printf("%s ", c);
 	printf("Tamanho: %d \n",strlen(c));
 	*/
 
-	removeAllSpaces(c);
+	//removeAllSpaces(c);
 
 	/*
 	printf("apos da FORMATACAO\n ");
 	printf("%s ", c);
 	printf("Tamanho: %d \n",strlen(c));
 	*/
+	strcpy(element,c);
 
 	if(validateDigits(c))
-		strcpy(element,c);
+		concatena(element,c,0,TAMANHO);
 	else
 	{
-		printf("ha carateres incalculaveis no sistema");
+		printf("ha carateres incalculaveis no sistema \n");
 	}
 	
-	
-	printf("trabalhar com essa\n ");
-	printf("%s", element);
+	printf("trabalhar com essa: ");
+	printf("%s \n", element);
 	printf("Tamanho: %d \n",strlen(element));
 	
 
 	if(verificaAberturas(element)){
-		printf("expressao bem formada !!");
+		printf("expressao bem formada !!\n");
 		converteInfixa(element);
 		i = 0;
+		printf("String final: ");
 		while (element[i] != '\0')
 		{
 			putchar(element[i]);
 			i++;
 		}
-		
+
+		calcPosFixa(element);
+			
 	}else 
 		printf("a elementos incorretos");
 		

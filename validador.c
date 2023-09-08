@@ -76,24 +76,41 @@ void converteInfixa(char *equacao){
 
     while (equacao[i])
     {
-        //printf("to aqui (0)");
-        if (equacao[i] < '9' && equacao[i] > '0')
+        if (ehOperando(equacao[i]) == FALSE)
         {
             saida[j++] = equacao[i++];
         } 
         else
         {   
-           // printf("to aqui (1)\n");
-            if (pilha.topo != 0 && definePrioridade(equacao[i], returnTop(pilha))){
-                Pop(&pilha,&auxiliar);
-                saida[j++] = auxiliar;
-                //printf("to aqui (2)\n");
-            }
 
-            Push(&pilha,equacao[i++]);
+            if(equacao[i] == ')')
+            {   
+                Pop(&pilha,&auxiliar);
+                while(auxiliar != '(')
+                {   
+
+                    saida[j++] = auxiliar;
+
+                    Pop(&pilha,&auxiliar);
+                }
+
+                ++i;
+
+            }
+            else
+            {
+            // printf("to aqui (1)\n");
+                    if (pilha.topo != 0 && definePrioridade(equacao[i], returnTop(pilha))){
+                        Pop(&pilha,&auxiliar);
+                        saida[j++] = auxiliar;
+                        //printf("to aqui (2)\n");
+                    }
+
+                Push(&pilha,equacao[i++]);
+            }
         }
-    
-        //printf("to aqui (3)\n");
+
+        saida[j++] = ' ';
     }
 
 
@@ -111,6 +128,9 @@ void converteInfixa(char *equacao){
 
 }
 
+/* caso o elemento que esteja na minha pilha tenha mais prioridade do que o elemento que 
+tem na minha equaçaõ, logo preciso colocar ele na string de saída pois na na hora de resolver a equacao pos-fixa 
+ele precisa aprecer primeiro*/
 bool definePrioridade(char string1,char string2){
 
     switch (string1)
@@ -127,17 +147,17 @@ bool definePrioridade(char string1,char string2){
                  switch (string2)
                  { 
                          case '+':
-                         case '-': return 1; 
+                         case '-': return 0; 
                          case '*':
-                         case '/': return 0; 
+                         case '/': return 1; 
                  }
             case '-':
                  switch (string2)
                  { 
                          case '+':
-                         case '-': return 1; 
+                         case '-': return 0; 
                          case '*':
-                         case '/': return 0; 
+                         case '/': return 1; 
                  }
             case '*':
                  switch (string2)
@@ -146,6 +166,8 @@ bool definePrioridade(char string1,char string2){
                          case '-': 
                          case '*':
                          case '/': return 1;
+                         default:
+                            return 0;
                  }
             case '/':
                  switch (string2)
@@ -154,6 +176,8 @@ bool definePrioridade(char string1,char string2){
                          case '-': 
                          case '*':
                          case '/': return 1;
+                         default: 
+                            return 0;
                  }
             case '$':
                  switch (string2)
@@ -161,16 +185,12 @@ bool definePrioridade(char string1,char string2){
                          case '+':
                          case '-': 
                          case '*':
-                         case '/': return 1;
+                         case '/': 
+                         case '$': return 1;
+                         default: return 0;
                  }
             case '(':
-                 switch (string2)
-                 { 
-                         case '+':
-                         case '-': 
-                         case '*':
-                         case '/': return 1;
-                 }
+                return 0;
     }
 }
 
@@ -232,4 +252,21 @@ int calcPosFixa(char *equacao)
     }
 
     return pilha.elemento[pilha.topo] - '0';
+}
+
+bool ehOperando(char Valor){
+
+    switch (Valor)
+    {
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '$': 
+    case '(':
+    case ')':
+        return TRUE;
+    default:
+        return FALSE;
+    }
 }

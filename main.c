@@ -75,11 +75,13 @@ int main(int argc, char **argv){
 	if(verificaAberturas(element)){
 		printf("expressao bem formada !!");
 		converteInfixa(element);
-		printf("equacao posFixa: %s \n ",element);
-		adicionaEspacos(element);
-		printf("equacao posFixa(COM ESPACOS): %s \n ",element);
-		resultado = calcPosFixa(&element);
-		printf("\n ---- Resultado: %d ",resultado);
+		i = 0;
+		while (element[i] != '\0')
+		{
+			putchar(element[i]);
+			i++;
+		}
+		
 	}else 
 		printf("a elementos incorretos");
 		

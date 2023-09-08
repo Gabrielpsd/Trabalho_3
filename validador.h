@@ -26,4 +26,6 @@ void converteInfixa(char *);
 bool definePrioridade(char string1,char string2);
 
 char returnTop(PILHA );
+
+bool ehOperando(char);
 #endif /* quadradoAnimado */ 

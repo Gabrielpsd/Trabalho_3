@@ -118,7 +118,7 @@ void converteInfixa(char *equacao){
             {
 
             // printf("to aqui (1)\n");
-                    if (pilha.topo != 0 && definePrioridade(pt[0], returnTop(pilha))){
+                    if (pilha.topo != 0 && PilhaPrioidade(pt[0], returnTop(pilha))){
                         Pop(&pilha,&auxiliar);
                         saida[j++] = auxiliar;
                         saida[j++] = ' ';
@@ -159,53 +159,43 @@ void converteInfixa(char *equacao){
 /* caso o elemento que esteja na minha pilha tenha mais prioridade do que o elemento que 
 tem na minha equaçaõ, logo preciso colocar ele na string de saída pois na na hora de resolver a equacao pos-fixa 
 ele precisa aprecer primeiro*/
-bool definePrioridade(char string1,char string2){
+bool PilhaPrioidade(char string1,char string2){
 
     switch (string1)
     {
-            case ' ':
-                 switch (string2)
-                 { 
-                         case '+':
-                         case '-':
-                         case '*':
-                         case '/': return 1;
-                 }
             case '+':
                  switch (string2)
                  { 
-                         case '+':
-                         case '-': return 0; 
-                         case '*':
-                         case '/': return 1; 
+                        
+                        default:
+                            return TRUE;
                  }
             case '-':
                  switch (string2)
-                 { 
-                         case '+':
-                         case '-': return 0; 
-                         case '*':
-                         case '/': return 1; 
+                 {  
+                        default: TRUE; 
                  }
             case '*':
                  switch (string2)
                  { 
                          case '+':
-                         case '-': 
+                         case '-': return TRUE;
                          case '*':
-                         case '/': return 1;
-                         default:
-                            return 0;
+                         case '/': 
+                         case '$':
+                            return FALSE;
+                        
                  }
             case '/':
                  switch (string2)
                  { 
                          case '+':
-                         case '-': 
+                         case '-': return TRUE; 
                          case '*':
-                         case '/': return 1;
-                         default: 
-                            return 0;
+                         case '/': 
+                         case '$':
+                            return FALSE;
+
                  }
             case '$':
                  switch (string2)
@@ -214,11 +204,10 @@ bool definePrioridade(char string1,char string2){
                          case '-': 
                          case '*':
                          case '/': 
-                         case '$': return 1;
-                         default: return 0;
+                         case '$': return TRUE;
                  }
             case '(':
-                return 0;
+                return FALSE;
     }
 }
 
@@ -231,7 +220,7 @@ char returnTop(PILHA pilha){
 
 float calcPosFixa(char *equacao)
 {
-    int i;
+    int i,j;
     char operador, *pt;
     float *Result, elemento1 , elemento2, resultado; 
 
@@ -250,7 +239,7 @@ float calcPosFixa(char *equacao)
         }
         else
         {   
-            /* j = 0;
+             j = 0;
             printf("\n---------------\n");
             printf("Atualmente: \n");
             while (j < i)
@@ -259,42 +248,47 @@ float calcPosFixa(char *equacao)
                 j++;
             }
             printf("Valor de i: %d ", i);
-            printf("\n---------------\n") */; 
+            printf("Operador: %c ",pt[0]);
+            printf("\n---------------\n") ; 
            elemento1 = Result[--i];
-           //printf("number: %.2f \t",elemento1);
-           elemento2 = Result[--i];
-            //printf("number: %.2f \t\n",elemento2);
-            operador = pt[0];
 
-            switch (operador)
-            {
-            case '+':
-                resultado = elemento1 + elemento2;
-                //printf("Resultado soma: %.2f\n",resultado);
-                break;
-            case '-':
-                resultado = elemento1 - elemento2;
-               // printf("Resultado sub: %.2f\n",resultado);
-                break;
-            case '*':
-                resultado = elemento1 * elemento2;
-                //printf("Resultado multi: %.2f\n",resultado);
-                break;
-            case '/':
-                if (elemento2 == 0)
+                 resultado = elemento1;
+              //printf("number: %.2f \t",elemento1);
+                elemento2 = Result[--i];
+                //printf("number: %.2f \t\n",elemento2);
+                operador = pt[0];
+
+           
+                switch (operador)
                 {
-                    printf("Ocorreu alguma divisão por ZERO");
-                    exit(1);
-                }
-                resultado = elemento2 / elemento1;
-                break;
-            case '$':
-                resultado = pow(elemento2 ,elemento1);
-                break;
+                case '+':
+                    resultado = elemento1 + elemento2;
+                printf("Resultado soma: %.2f\n",resultado);
+                    break;
+                case '-':
+                    resultado = elemento2 - elemento1;
+                printf("Resultado sub: %.2f\n",resultado);
+                    break;
+                case '*':
+                    resultado = elemento1 * elemento2;
+                printf("Resultado multi: %.2f\n",resultado);
+                    break;
+                case '/':
+                    if (elemento2 == 0)
+                    {
+                        printf("Ocorreu alguma divisão por ZERO");
+                        exit(1);
+                    }
+                    resultado = elemento2 / elemento1;
+                    break;
+                case '$':
+                    resultado = pow(elemento2 ,elemento1);
+                    break;
 
-            default:
-                break;
-            }
+                default:
+                    break;
+                }
+           
 
             //printf("Atribuindo a posicao: %d ", i);
             Result[i++] = resultado;

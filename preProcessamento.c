@@ -67,7 +67,7 @@ void imprimePilha(PILHA pilha){
     int i;
 
     i = 0;
-
+    printf("imprimindo a pilha: ");
     if(pilha.topo == 0 ){
         printf("pilha vazia !! \n");
     }else{
@@ -75,7 +75,7 @@ void imprimePilha(PILHA pilha){
 
         for (i = 0 ; i < pilha.topo; i++)
         {
-            printf("%c ,",pilha.elemento[i]);
+            putchar(pilha.elemento[i]);
         }
     }
 }

@@ -1,4 +1,5 @@
 #include <string.h> /* strlen() */
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "validador.h"
@@ -25,10 +26,11 @@ bool validateDigits(char *string){
 
     int cont = 0;
 
-    while (cont < strlen(string) - 1)
+    while (string[cont] != '\0')
     {
-        if(string[cont] > 57 || string[cont] < 40)
-            return FALSE;
+        if(!ehOperando(string[cont]))
+            if(string[cont] < 48 || string[cont] > 57)
+                return FALSE;
               
         cont++;
     }
@@ -42,15 +44,21 @@ void removeAllSpaces(char *String){
 
     int contString = 0,contTemp = 0;
 
-    while (contString < strlen(String) - 1)
+    while (String[contString] != '\0')
     {
         if(String[contString] != ESPACE){
-                tempString[contTemp++] = String[contString];
+                tempString[contTemp] = String[contString];
+                contTemp++;
         }
             
         contString++;
     }
     
+    tempString[contTemp] = '\0';
+
+    strcpy(String,tempString);
+
+    /*
     contString = 0;
 
     while (contString < contTemp)
@@ -58,8 +66,8 @@ void removeAllSpaces(char *String){
         String[contString] = tempString[contString];
         ++contString;
     }
-
-    String[contTemp +1 ] = '\0';
+    */
+    String[contTemp + 1 ] = '\0';
  
 }
 
@@ -83,28 +91,74 @@ void imprimePilha(PILHA pilha){
 /* funcao que ira adicoinar espacos entre os caracteres para que possa-se trabalhar com caracteres de mais de um digito*/
 void adicionaEspacos(char *String)
 {
-    char tempString[strlen(String)];
+    printf("Tamanho do vetor alocado: %d \n",strlen(String));
+
+    char *tempString;
+    printf("Entrei com essa string: %s!\n",String);
 
     int contString = 0,contTemp = 0;
 
-    while (contString < strlen(String) - 1)
+    tempString = (char *) malloc(sizeof(int) * 1);
+
+    printf("dentro da funcao: ");
+    while (String[contString]!= '\0')
     {
-        if(String[contString] == '+' || String[contString] == '-' || String[contString] == '*' || String[contString] == '/' || String[contString] == '$'){
-                tempString[contTemp++] = ' ';
-                tempString[contTemp++] = String[contString];
-                tempString[contTemp++] = ' ';
-        }else
-            
-        contString++;
+        if (String[contString] == '(' || String[contString] == ')')
+        {
+            tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3));
+                tempString[contTemp] = ' ';
+                printf("%c", tempString[contTemp]);
+                contTemp++;
+                tempString[contTemp] = String[contString];
+                printf("%c", tempString[contTemp]);
+                contString++;
+                contTemp++;
+                tempString[contTemp] = ' ';
+                printf("%c", tempString[contTemp]);
+                contTemp++;
+        }
+        else
+        {
+
+            if(ehOperando(String[contString]) && tempString[contString-1] != ESPACE){
+                tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3));
+                tempString[contTemp] = ' ';
+                printf("%c", tempString[contTemp]);
+                contTemp++;
+                tempString[contTemp] = String[contString];
+                printf("%c", tempString[contTemp]);
+                contString++;
+                contTemp++;
+                tempString[contTemp] = ' ';
+                printf("%c", tempString[contTemp]);
+                contTemp++;
+        }else{
+            tempString = realloc(tempString,sizeof(char) * (contTemp+1));
+                tempString[contTemp] = String[contString];
+                printf("%c", tempString[contTemp]);
+                contString++;
+                contTemp++;
+        }
+        }
+        
+        
     }
     
-    contString = 0;
+    tempString[contTemp] = '\0';
 
-    while (contString < contTemp)
+    printf("\ntamnho da string de saida: %d ", contTemp);
+    printf("String saida: %s!\n",tempString);
+
+    String =(char *) calloc(contTemp,sizeof(char));
+
+    contTemp = 0;
+    String = tempString;
+    /*
+    while (tempString[contTemp] != '\0')
     {
-        String[contString] = tempString[contString];
-        ++contString;
+        String[contTemp] = tempString[contTemp];
+        ++contTemp;
     }
-
-    String[contTemp +1 ] = '\0';
+    */
+    String[contTemp] = '\0';
 }

@@ -103,22 +103,7 @@ void adicionaEspacos(char *String)
     printf("dentro da funcao: ");
     while (String[contString]!= '\0')
     {
-        if (String[contString] == '(' || String[contString] == ')')
-        {
-            tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3));
-                tempString[contTemp] = ' ';
-                printf("%c", tempString[contTemp]);
-                contTemp++;
-                tempString[contTemp] = String[contString];
-                printf("%c", tempString[contTemp]);
-                contString++;
-                contTemp++;
-                tempString[contTemp] = ' ';
-                printf("%c", tempString[contTemp]);
-                contTemp++;
-        }
-        else
-        {
+    
 
             if(ehOperando(String[contString]) && tempString[contString-1] != ESPACE){
                 tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3));
@@ -139,7 +124,6 @@ void adicionaEspacos(char *String)
                 contString++;
                 contTemp++;
         }
-        }
         
         
     }
@@ -149,10 +133,8 @@ void adicionaEspacos(char *String)
     printf("\ntamnho da string de saida: %d ", contTemp);
     printf("String saida: %s!\n",tempString);
 
-    String =(char *) calloc(contTemp,sizeof(char));
-
     contTemp = 0;
-    String = tempString;
+    strcpy(String,tempString);
     /*
     while (tempString[contTemp] != '\0')
     {
@@ -160,5 +142,5 @@ void adicionaEspacos(char *String)
         ++contTemp;
     }
     */
-    String[contTemp] = '\0';
+  
 }

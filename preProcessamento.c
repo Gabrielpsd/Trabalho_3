@@ -28,10 +28,12 @@ bool validateDigits(char *string){
 
     while (string[cont] != '\0')
     {
+     
         if(!ehOperando(string[cont]))
-            if(string[cont] < 48 || string[cont] > 57)
-                return FALSE;
-              
+            if(!(string[cont] == ESPACE))    
+                if(string[cont] < 48 || string[cont] > 57)     
+                    return FALSE;
+
         cont++;
     }
 
@@ -100,40 +102,56 @@ void adicionaEspacos(char *String)
 
     tempString = (char *) malloc(sizeof(int) * 1);
 
-    printf("dentro da funcao: ");
+    printf("dentro da funcao: !\n");
+
     while (String[contString]!= '\0')
     {
-    
+        printf("---------- %d execucao ------------------------- \n",contString);
 
-            if(ehOperando(String[contString]) && tempString[contString-1] != ESPACE){
+        if(ehOperando(String[contString]) && tempString[contString-1] != ESPACE)
+        {
                 tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3));
                 tempString[contTemp] = ' ';
-                printf("%c", tempString[contTemp]);
+                printf("|%c| contTemp: %d string|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
                 contTemp++;
                 tempString[contTemp] = String[contString];
-                printf("%c", tempString[contTemp]);
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
                 contString++;
                 contTemp++;
                 tempString[contTemp] = ' ';
-                printf("%c", tempString[contTemp]);
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
                 contTemp++;
-        }else{
-            tempString = realloc(tempString,sizeof(char) * (contTemp+1));
+
+        }else
+            if(ehOperando(String[contString]) && tempString[contString-1] == ESPACE)
+            {
+               tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+2)); 
                 tempString[contTemp] = String[contString];
-                printf("%c", tempString[contTemp]);
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
                 contString++;
                 contTemp++;
-        }
-        
-        
+                tempString[contTemp] = ' ';
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                contTemp++;
+            }
+            else            
+            {
+                tempString = realloc(tempString,sizeof(char) * (contTemp+1));
+                    tempString[contTemp] = String[contString];
+                   printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                    contString++;
+                    contTemp++;
+            }
+        printf("contString parou: %d || contTemp parou: %d \n",contString,contTemp);
+
+        printf("----------- Fim ---------------- \n");
     }
     
     tempString[contTemp] = '\0';
 
-    printf("\ntamnho da string de saida: %d ", contTemp);
+    printf("\ntamanho da string de saida: %d ---- > ", contTemp);
     printf("String saida: %s!\n",tempString);
 
-    contTemp = 0;
     strcpy(String,tempString);
     /*
     while (tempString[contTemp] != '\0')

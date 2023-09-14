@@ -95,7 +95,7 @@ void adicionaEspacos(char *String)
 {
     printf("Tamanho do vetor alocado: %d \n",strlen(String));
 
-    char *tempString;
+    char *tempString, auxiliar;
     printf("Entrei com essa string: %s!\n",String);
 
     int contString = 0,contTemp = 0;
@@ -107,42 +107,46 @@ void adicionaEspacos(char *String)
     while (String[contString]!= '\0')
     {
         printf("---------- %d execucao ------------------------- \n",contString);
+        auxiliar = String[contString];
+        printf("Trabalhando com: !%c! tempString: %d contString: %d \n",auxiliar,contTemp,contString);
+        printf("Temstring: !%s!\n",tempString);
 
-        if(ehOperando(String[contString]) && tempString[contString-1] != ESPACE)
+        printf("ehOperando: %d e tempstring[-1](%c) != !%d!\n", ehOperando(auxiliar),tempString[-contTemp],ESPACE);
+
+        if(ehOperando(auxiliar) && tempString[contTemp-1] != ESPACE)
         {
-                tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3));
-                tempString[contTemp] = ' ';
-                printf("|%c| contTemp: %d string|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+4));
+                tempString[contTemp] = ESPACE;
+                printf("|%c| contTemp: %d string|%c| contString: %d \n", tempString[contTemp],contTemp,auxiliar,contString);
                 contTemp++;
-                tempString[contTemp] = String[contString];
-                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                tempString[contTemp] = auxiliar;
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,auxiliar,contString);
                 contString++;
                 contTemp++;
-                tempString[contTemp] = ' ';
-                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                tempString[contTemp] = ESPACE;
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,auxiliar,contString);
                 contTemp++;
 
         }else
-            if(ehOperando(String[contString]) && tempString[contString-1] == ESPACE)
+            if(ehOperando(auxiliar) && tempString[contTemp-1] == ESPACE)
             {
-               tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+2)); 
-                tempString[contTemp] = String[contString];
-                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+               tempString = (char *)realloc(tempString, (sizeof(char)) * (contTemp+3)); 
+                tempString[contTemp] =auxiliar;
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,auxiliar,contString);
                 contString++;
                 contTemp++;
-                tempString[contTemp] = ' ';
-                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                tempString[contTemp] = ESPACE;
+                printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,auxiliar,contString);
                 contTemp++;
             }
             else            
             {
-                tempString = realloc(tempString,sizeof(char) * (contTemp+1));
-                    tempString[contTemp] = String[contString];
-                   printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,String[contString],contString);
+                tempString = realloc(tempString,sizeof(char) * (contTemp+2));
+                    tempString[contTemp] = auxiliar;
+                   printf("|%c| contTemp: %d String|%c| contString: %d \n", tempString[contTemp],contTemp,auxiliar,contString);
                     contString++;
                     contTemp++;
             }
-        printf("contString parou: %d || contTemp parou: %d \n",contString,contTemp);
 
         printf("----------- Fim ---------------- \n");
     }

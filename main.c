@@ -68,7 +68,7 @@ int main(int argc, char **argv){
 				i++;
 			}
 			
-			printf("\n");
+			printf("!\n");
 			printf("Resultado: %.2f",calcPosFixa(element));
 		}
 		else 

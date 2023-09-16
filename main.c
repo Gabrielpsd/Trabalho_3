@@ -11,71 +11,77 @@
 	
 	Obs: Para evitar erros durante a execução recomenda-se que configure seu prompt de comando para que utilize as propriedades herdadas do prompt 
 	
-	codigo para compilação: gcc main.c -o saida.exe  validador.c preProcessamento.c
+	codigo para compilação: gcc main.c -o saida.exe  validador.c -Wall -Werror -Wextra -pedantic
 
-	 -Wall -Werror -Wextra -pedantic -lwinmm  
+
 	
 	link do repositorio: https://github.com/Gabrielpsd
 	
 */
 
-#include <stdio.h>
-#include <string.h>
+#include <stdio.h> /*fgets, printf, putchar*/
+#include <string.h> /* strcpy , */
 
 #include "validador.h"
-#include "preProcessamento.h"
 
+int main(int argc, char **argv)
+{
+	/*declaração das variaveis utilizadas na função */
+	char entrada[TAMANHO],element[TAMANHO];
+	int i;
 
-int main(int argc, char **argv){
-
+	/* artificio para remover Warning */
 	argc = argc;
 	argv = argv;
-
-	char inputString[TAMANHO], secString[TAMANHO];
-	char c[TAMANHO],element[TAMANHO];
-	int i,resultado;
-
+	
+	/* entrada de dados do usuario */
 	printf("Digite um elemento: ");
-	fgets(c, TAMANHO-1, stdin);
-	c[strlen(c) - 1 ] = '\0';
+	fgets(entrada, TAMANHO-1, stdin);
+	entrada[strlen(entrada) - 1 ] = '\0';
 
-	strcpy(element,c);
+	/* é bom manter os dados originais digitado pelo usuario, então
+	armazenamo-os em uma variavel auxiliar*/ 
+	strcpy(element,entrada);
 	
-	printf("C: %s!\n",c);
-	printf("element: %s!\n",element);
-	printf("trabalhar com essa: ");
-	printf("%s \n", element);
-	printf("Tamanho: %d \n",strlen(element));
-	
+	/* removemos todos os espacos*/
 	removeAllSpaces(element);
-	printf("Apos remover espacos: %s!\n",element);
+	printf("aqui (0) %s \n",element);
+	/* adicionamo-os novamente*/
 	adicionaEspacos(element);
-	printf("Apos adicionar espacos: %s !\n",element);
-
+	printf("aqui (1) %s \n",element);
+	/* validamos os digitos da entrada para garantir que não há erro algum*/
 	if(!validateDigits(element))
 	{	
+		/* se tiver erro caira aqui*/	
 		printf("ha carateres incalculaveis no sistema \n");
-	}else{
-
-		if(verificaAberturas(element)){
-			printf("expressao bem formada !!\n");
+	}
+	else
+	{
+		/* se não tiver erro vem para ca
+		verificamos os pares de parentesis antes de prosseguir*/
+		if(verificaAberturas(element))
+		{
+			/* se as aberturar e fechamentos dos parentesis estiverem ok, caimos aqui*/
+			/* se estiver ok podemos passa-la para infixa sem problema */
 			converteInfixa(element);
+				printf("aqui (2)\n");
 			i = 0;
-			printf("String final: ");
+			printf("String pos fixa: ");
+			/* imrpimimos a funcao pos fixa, digito a digito*/
 			while (element[i] != '\0')
 			{
 				putchar(element[i]);
 				i++;
 			}
-			
-			printf("!\n");
+
+
+			printf("\n");			
 			printf("Resultado: %.2f",calcPosFixa(element));
 		}
 		else 
+			/* se o fechamento dos parentesis estiverem incorretos cairemos aqui*/
 			printf("a elementos incorretos");
 	}
 
-	
-
-return 0 ;
+	return 0 ;
 }

@@ -196,11 +196,11 @@ void converteInfixa(char *equacao)
     pt = strtok(equacao, " ");
 
     while (pt)
-    {  
-        printf("caraceter: %c \n",pt[0]);            
+    {            
         /*Se não for operador que dizer que é operado */
         if (ehOperador(pt[0]) == FALSE)
-        {   
+        { 
+
             concatena(saida , pt,j, TAMANHO);
             j += strlen(pt);
 
@@ -219,8 +219,10 @@ void converteInfixa(char *equacao)
                 while(auxiliar != '(')
                 {   
                     /* coloca um operador mais um token (" ") */
-                    saida[j++] = auxiliar;
-                    saida[j++] = ' ';
+                    saida[j] = auxiliar;
+                    j++;
+                    saida[j] = ' ';
+                    j++;
                     Pop(&pilha,&auxiliar);
                 }
 
@@ -250,9 +252,7 @@ void converteInfixa(char *equacao)
 
         /* avanca para o proximo token da string */
         pt = strtok(NULL ," ");
-        printf(" saida %s \n",saida);
     }
-    printf("\n(1)");
     j = j - 1;
 
     /*desempilha os operadores restantes na pilha (caso haja)*/    
@@ -269,7 +269,7 @@ void converteInfixa(char *equacao)
 
     /* passa a saida para a string que entrou como parametro*/
     strcpy(equacao,saida);
-    printf("to aqui !!");
+
 }
 
 /* ---------------------- ehOperador -----------------------------
@@ -320,14 +320,30 @@ Boolean PilhaPrioidade(char string1,char string2){
     switch (string1)
     {
             case '+':
-                 switch (string2)
+                switch (string2)
                  { 
-                        
-                        default:
+                         case '+':
+                         case '-': 
+                         case '*':
+                         case '/': 
+                         case '$':
                             return TRUE;
+                        default:
+                            return FALSE;
                  }
             case '-':
-                 return TRUE;
+                switch (string2)
+                 { 
+                        case '+':
+                         case '-': 
+                         case '*':
+                         case '/': 
+                         case '$':
+                            return TRUE;
+                        default:
+                            return FALSE;
+   
+                 }
             case '*':
                  switch (string2)
                  { 
@@ -362,8 +378,7 @@ Boolean PilhaPrioidade(char string1,char string2){
             case '(':
                 return FALSE;
     }
-
-    return TRUE;
+    return FALSE;
 }
 
 /* ---------------------- POP-----------------

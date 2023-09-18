@@ -45,10 +45,10 @@ int main(int argc, char **argv)
 	
 	/* removemos todos os espacos*/
 	removeAllSpaces(element);
-	printf("aqui (0) %s \n",element);
+
 	/* adicionamo-os novamente*/
 	adicionaEspacos(element);
-	printf("aqui (1) %s \n",element);
+
 	/* validamos os digitos da entrada para garantir que não há erro algum*/
 	if(!validateDigits(element))
 	{	
@@ -64,7 +64,7 @@ int main(int argc, char **argv)
 			/* se as aberturar e fechamentos dos parentesis estiverem ok, caimos aqui*/
 			/* se estiver ok podemos passa-la para infixa sem problema */
 			converteInfixa(element);
-				printf("aqui (2)\n");
+
 			i = 0;
 			printf("String pos fixa: ");
 			/* imrpimimos a funcao pos fixa, digito a digito*/

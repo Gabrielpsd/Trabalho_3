@@ -1,4 +1,4 @@
-#ifndef validador
+#ifndef validador.
 #define validador
 
 #define TAMANHO 100 /* um tamnho maximo definido para a string de entrada*/

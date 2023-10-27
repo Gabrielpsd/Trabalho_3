@@ -11,7 +11,7 @@
     a funcao ira adicionar um espacos entre um operador e os numeros.
 */
 void adicionaEspacos(char *String)
-{
+{.
     char *tempString, auxiliar;
     
     int contString = 0,contTemp = 0;
